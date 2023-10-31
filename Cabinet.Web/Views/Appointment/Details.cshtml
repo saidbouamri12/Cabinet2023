@@ -1,0 +1,38 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model Cabinet.Core.Models.Appointment;
+<h1>Appointment Details</h1>
+
+<div class="table-responsive">
+    <table class="table table-bordered">
+        <tr>
+            <th>Appointment ID:</th>
+            <td>@Model.AppointmentID</td>
+        </tr>
+        <tr>
+            <th>Appointment Date:</th>
+            <td>@Model.AppointmentDate.ToShortDateString()</td>
+        </tr>
+        <tr>
+            <th>Appointment Time:</th>
+            <td>@Model.AppointmentTime</td>
+        </tr>
+        <tr>
+            <th>Appointment Status:</th>
+            <td>@Model.AppointmentStatus</td>
+        </tr>
+        @*<tr>
+            <th>Appointment Type:</th>
+            <td>@Model.AppointmentType</td>
+        </tr>*@
+        <tr>
+            <th>Notes:</th>
+            <td>@Model.Notes</td>
+        </tr>
+    </table>
+</div>
+
+<a asp-controller="Appointment" asp-action="Index" class="btn btn-primary">Back to List</a>

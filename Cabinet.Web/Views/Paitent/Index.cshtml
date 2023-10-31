@@ -1,0 +1,279 @@
+﻿@model List<Cabinet.Core.Models.Patient>
+
+@section Styles
+ {
+	<link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" />
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/css/toastr.css" rel="stylesheet" />
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+	
+ }
+
+<div class="container-fluid">
+	<div class="row" style="margin-top:40px; margin-bottom:20px">
+		<div class="col-md-1">
+
+		</div>
+		<div class="col-md-10" >
+			<a asp-controller="Paitent" asp-action="Create" class="btn btn-success">Ajouter Patient</a>
+			<a id="linkButton"> test</a>
+		</div>
+		<div class="col-md-1">
+			
+		</div>
+	</div>
+<div class="row">
+		<div class="col-md-1">
+		</div>
+		<div class="col-md-10">
+			<div class="portlet-body">
+				<table id="tablep" class="table table-striped table-hover table-bordered" >
+					<thead>
+						<tr>
+							<th>
+								Nom complet
+							</th>
+							<th>
+								CIN
+							</th>
+							<th>
+								Né(e) le
+							</th>
+							<th>
+								Sexe
+							</th>
+							<th>
+								Contact
+							</th>
+							<th>
+								Parent/Tuteur
+							</th>
+							
+							<th>
+								Action
+							</th>
+						</tr>
+					</thead>
+					<tbody>
+
+						@foreach (var patient in Model)
+						{
+							<tr>
+								<td>
+									@patient.FirstName @patient.LastName
+								</td>
+								<td>
+									@patient.CIN
+								</td>
+								<td>
+									@patient.DateOfBirth
+								</td>
+								<td >
+									@patient.Gender
+								</td>
+								<td>
+
+									@patient.ContactNumber <p> </p> @patient.ContactNumber2
+
+								</td>
+								<td>
+									@if (@patient.ParentGuardian == "" || patient.ParentGuardian == null)
+									{
+										<p>None</p>
+									}
+									else
+									{
+										@patient.ParentGuardian
+									}
+
+
+								</td>
+								
+								<td>
+									<div class="dropdown">
+										<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+											Action
+										</button>
+										<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+											<a class="dropdown-item" asp-controller="Paitent" asp-action="Edit" asp-route-id="@patient.PatientID" >Edit</a>
+											<a class="dropdown-item" onclick="submitForm('deleteForm-@patient.PatientID')" >Delete</a>
+											<a asp-controller="Paitent" asp-action="Details" asp-route-id="@patient.PatientID" class="dropdown-item">Detail</a>
+											<a class="dropdown-item" asp-action="rendezvous_historique" asp-controller="Appointment" asp-route-id="@patient.PatientID" >rendez-vous historique</a>
+											<a class="dropdown-item" asp-action="historique_Paiement" asp-controller="Payment" asp-route-id="@patient.PatientID">historique Paiement</a>
+											<a class="dropdown-item" asp-action="dossier_médical" asp-controller="Pack" asp-route-id="@patient.PatientID">historique dossier médical</a>
+											<a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#myModal"> Add Waitroom if dont have appointment</a>
+										</div>
+									</div>
+									<form id="deleteForm-@patient.PatientID" asp-action="Delete" asp-route-id="@patient.PatientID" method="post" style="display: none;">
+										@Html.AntiForgeryToken()
+									</form>
+									<div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+										<div class="modal-dialog">
+											<div class="modal-content">
+												<div class="modal-header">
+													<h5 class="modal-title" id="exampleModalLabel">Add paitent if dont have appointment</h5>
+													<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+												</div>
+												<div class="modal-body">
+
+													<form method="post" id="waitroom" asp-action="Createwithnoapoiment" asp-controller="WaitingRoom">
+														<div class="form-group">
+
+															<input type="hidden" value="@patient.PatientID" name="PatientID">
+															
+														</div>
+
+														<div class="form-group">
+															<label for="AppointmentTime">Appointment Time</label>
+															<input type="time" class="form-control" id="AppointmentTime" name="AppointmentTime" min="08:00" max="18:00" step="3600" required>
+														</div>
+
+														<div class="form-group">
+															<label for="AppointmentStatus">Appointment type</label>
+															<select class="form-control" id="AppointmentType" name="AppointmentType" required>
+																<option value="">Select Appointment Type</option>
+																<option value="consultation">consultation</option>
+															</select>
+														</div>
+
+														<div class="form-group">
+															<label for="Statuspaitent">Status Patient</label>
+															<select class="form-control" id="Statuspaitent" name="Status paitent" required>
+																<option value="">Select Status Patient</option>
+																<option value="i dont have appointment" >i dont have appointment</option>
+																<option value="danger">danger</option>
+															</select>
+														</div>
+														<div class="form-group">
+															<label for="doctorid" class="form-label">Doctor:</label>
+															<select class="form-control select2" id="doctorid" name="doctorid">
+																<option value="">Select Doctor</option>
+																@foreach (var doctor in ViewBag.doctorUser)
+																{
+																	<option value="@doctor.Id">@doctor.fullname</option>
+																}
+															</select>
+															<div class="invalid-feedback">Please select the doctor.</div>
+														</div>
+
+														<button type="submit" class="btn btn-primary">Submit</button>
+													</form>
+
+												</div>
+												<div class="modal-footer">
+													<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+													<button type="submit" onclick="submitFormait('waitroom')" class="btn btn-primary">Save changes</button>
+												</div>
+
+											</div>
+										</div>
+									</div>
+								</td>
+							</tr>
+						}
+
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<div class="col-md-1">
+
+		</div>
+   </div>
+</div>
+
+	@section Scripts
+	 {
+		<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    	<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+		<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"></script>
+    	<script src="https://cdnjs.cloudflare.com/ajax/libs/luxon/2.2.0/luxon.min.js"></script>
+    	<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    	<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/js/toastr.js"></script>
+
+		<script>
+			$('#tablep').DataTable();
+		</script>
+	<script>
+		function submitForm(formId) {
+			var form = document.getElementById(formId);
+			if (form) {
+				var confirmed = confirm("Are you sure you want to delete this patient?");
+				if (confirmed) {
+					form.submit();
+				}
+			}
+		}
+
+		function submitFormait(formId)
+		{
+					var form = document.getElementById(formId);
+					if(form)
+					{
+						form.submit();
+					}
+		}
+	</script>
+	<script>
+		document.addEventListener("DOMContentLoaded", function () {
+			const inputElement = document.getElementById("AppointmentTime");
+			const timePicker = flatpickr(inputElement, {
+				enableTime: true,
+				noCalendar: true,
+				dateFormat: "H:i",
+				minTime: "08:00",
+				maxTime: "18:00",
+				time_24hr: true,
+				allowInput: true
+			});
+		});
+	</script>
+	<script>
+
+		toastr.options = {
+			positionClass: 'toast-top-right',
+			// other options...
+		};
+		// Show success toast
+		function showSuccessToast(message) {
+			toastr.success(message, "Succès");
+		}
+
+		// Show error toast
+		function showErrorToast(message) {
+			toastr.error(message, "Erreur");
+		}
+
+		// Show info toast
+		function showInfoToast(message) {
+			toastr.info(message, "Info");
+		}
+
+		// Show warning toast
+		function showWarningToast(message) {
+			toastr.warning(message, "alerte");
+		}
+
+	</script>
+
+	<script type="text/javascript">
+		$(document).ready(function () {
+			toastr.options.timeOut = 2000; // 2s
+
+			//toastr.info('Page Loaded!', "test");
+			if ('@TempData["success"]' != "") {
+				showSuccessToast('@TempData["success"]');
+			}
+
+			if ('@TempData["error"]' != "") {
+				showErrorToast('@TempData["error"]');
+			}
+			if ('@TempData["info"]' != "") {
+				showInfoToast('@TempData["info"]');
+			}
+			if ('@TempData["warning"]' != "") {
+				showWarningToast('@TempData["warning"]');
+			}
+		});
+	</script>
+	 }

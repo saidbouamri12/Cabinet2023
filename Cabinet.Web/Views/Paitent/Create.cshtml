@@ -1,0 +1,275 @@
+﻿@model Cabinet.Core.Models.Patient;
+@section Styles
+{
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/css/toastr.css" rel="stylesheet" />
+}
+<div class="container">
+	<div class="col-md-2"></div>
+	<div class="col-md-8 ">
+		<div class="portlet ">
+			<div class="portlet-title">
+				<div class="caption" style="margin-top:10px; margin-bottom:10px">
+					<i class="fa fa-cogs font-green-sharp"></i>
+					<h1 class="display-4">Ajouter Paitent</h1>
+				</div>
+
+			</div>
+			<div class="portlet-body form">
+				<form asp-controller="Paitent" asp-action="Create" method="post" class="needs-validation" novalidate>
+					<div class="mb-3">
+						<label for="firstName" class="form-label">First Name</label>
+						<input type="text" class="form-control" id="firstName" name="FirstName" required>
+						<div class="invalid-feedback">
+							Please provide a valid first name.
+						</div>
+					</div>
+					<div class="mb-3">
+						<label for="lastName" class="form-label">Last Name</label>
+						<input type="text" class="form-control" id="lastName" name="LastName" required>
+						<div class="invalid-feedback">
+							Please provide a valid last name.
+						</div>
+					</div>
+					<div class="mb-3">
+						<label for="cin" class="form-label">CIN</label>
+						<input type="text" class="form-control" id="cin" name="CIN">
+					</div>
+					<div class="mb-3">
+						<label for="dateOfBirth" class="form-label">Date of Birth</label>
+						<input type="date" class="form-control" id="dateOfBirth" name="DateOfBirth">
+					</div>
+					<div class="mb-3">
+						<label for="gender" class="form-label">Gender</label>
+						<select class="form-select" id="gender" name="Gender" required>
+							<option value="">Select gender</option>
+							<option value="Male">Male</option>
+							<option value="Female">Female</option>
+							<option value="Other">Other</option>
+						</select>
+						<div class="invalid-feedback">
+							Please select a gender.
+						</div>
+					</div>
+					<div class="mb-3">
+						<label for="contactNumber" class="form-label">Contact Number</label>
+						<input type="tel" class="form-control" id="contactNumber" name="ContactNumber" required>
+						<div class="invalid-feedback">
+							Please provide a valid contact number.
+						</div>
+					</div>
+					<div class="mb-3">
+						<label for="contactNumber2" class="form-label">Additional Contact Number</label>
+						<input type="tel" class="form-control" id="contactNumber2" name="ContactNumber2">
+					</div>
+					<div class="mb-3">
+						<label for="email" class="form-label">Email</label>
+						<input type="email" class="form-control" id="email" name="Email">
+					</div>
+					<div class="mb-3">
+						<label for="address" class="form-label">Address</label>
+						<textarea class="form-control" id="address" name="Address" rows="3"></textarea>
+					</div>
+					<div class="mb-3">
+						<label for="medicalHistory" class="form-label">Medical History</label>
+						<textarea class="form-control" id="medicalHistory" name="MedicalHistory" rows="3"></textarea>
+					</div>
+					<div class="mb-3">
+						<label for="allergies" class="form-label">Allergies</label>
+						<textarea class="form-control" id="allergies" name="Allergies" rows="3"></textarea>
+					</div>
+					<div class="mb-3">
+						<label for="chronicConditions" class="form-label">Chronic Conditions</label>
+						<textarea class="form-control" id="chronicConditions" name="ChronicConditions" rows="3"></textarea>
+					</div>
+					<div class="mb-3">
+						<label for="parentGuardian" class="form-label">Parent/Guardian</label>
+						<input type="text" class="form-control" id="parentGuardian" name="ParentGuardian">
+					</div>
+
+					<button type="submit" class="btn btn-primary">Create Patient</button>
+				</form>
+				@*<form role="form" asp-action="Create" method="post">
+					<div class="form-body">
+						<div class="form-group">
+							<label>Last Name <span style="color:red">*</span></label>
+							<div class="input-icon right">
+								<input type="text"  class="form-control" asp-for="LastName" placeholder="Last Name">
+								<span asp-validation-for="LastName" style="color:Red"></span>
+							</div>
+						</div>
+						<div class="form-group">
+							<label>First Name <span style="color:red">*</span></label>
+							<div class="input-icon right">
+								
+								<input type="text" asp-for="FirstName" class="form-control" placeholder="First Name">
+								<span asp-validation-for="FirstName" style="color:Red"></span>
+							</div>
+						</div>
+						<div class="form-group">
+							<label>CIN <span  style="color:red">*</span></label>
+							<div class="input-icon right">
+								<input type="text" asp-for="CIN" class="form-control" placeholder="CIN">
+								<span asp-validation-for="CIN" style="color:Red"></span>
+							</div>
+						</div>
+						<div class="form-group">
+							<label>DateOfBirth <span style="color:red">*</span></label>
+							<div class="input-icon right">
+
+								<input name="DateOfBirth" class="form-control form-control-inline input-medium date-picker" size="16" value="" />
+									<span class="help-block">
+										Select date
+									</span>
+								<span asp-validation-for="DateOfBirth" style="color:Red"></span>
+								
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label>Gender <span style="color:red">*</span></label>
+							<div class="input-icon right">
+								<div class="clearfix">
+									<div class="btn-group" data-toggle="buttons">
+										<label class="btn blue active">
+											<input asp-for="Gender" type="radio" value="Male" class="toggle" checked=""> Male
+										</label>
+										<label class="btn blue">
+											<input asp-for="Gender" type="radio" value="Female" class="toggle"> Female
+										</label>
+										
+									</div>
+								</div>
+								<span asp-validation-for="Gender" style="color:red"></span>
+							</div>
+						</div>
+						<div class="form-group">
+							<label>ContactNumber <span style="color:red">*</span></label>
+							<div class="input-icon right">
+								<input type="text" asp-for="ContactNumber" class="form-control" placeholder="ContactNumber">
+								<span asp-validation-for="ContactNumber" style="color:Red"></span>
+							</div>
+						</div>
+						<div class="form-group">
+							<label>ContactNumber2 </label>
+							<div class="input-icon right">
+								<input type="text" asp-for="ContactNumber2" class="form-control" placeholder="Contact Number 2">
+							</div>
+						</div>
+						<div class="form-group">
+							<label>Email </label>
+							<div class="input-icon right">
+								<input type="text" class="form-control" placeholder="Email">
+							</div>
+						</div>
+						<div class="form-group">
+							<label>Address </label>
+							<div class="input-icon right">
+								<input type="text" class="form-control" placeholder="Address">
+							</div>
+						</div>
+						<div class="form-group">
+							<label>MedicalHistory </label>
+							<div class="input-icon right">
+								<input type="text" class="form-control" placeholder="Medical History">
+							</div>
+						</div>
+						<div class="form-group">
+							<label>Chronic Conditions </label>
+							<div class="input-icon right">
+								<input type="text" class="form-control" placeholder="Chronic Conditions">
+							</div>
+						</div>
+						<div class="form-group">
+							<label>ParentGuardian </label>
+							<div class="input-icon right">
+								<input type="text" class="form-control" placeholder="Parent Guardian">
+							</div>
+						</div>
+
+					</div>
+					<div class="form-actions">
+						<button type="submit" class="btn blue">Submit</button>
+						<button type="button" asp-controller="Paitent" asp-action="index" class="btn default">Cancel</button>
+					</div>
+				</form>*@
+			</div>
+		</div>
+	</div>
+	<div class="col-md-2"></div>
+</div>
+
+@section Scripts
+{
+	<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/js/toastr.js"></script>
+	<script>
+		// Disable form submission if there are invalid fields
+		(function () {
+			'use strict';
+
+			var forms = document.querySelectorAll('.needs-validation');
+
+			Array.prototype.slice.call(forms)
+				.forEach(function (form) {
+					form.addEventListener('submit', function (event) {
+						if (!form.checkValidity()) {
+							event.preventDefault();
+							event.stopPropagation();
+						}
+
+						form.classList.add('was-validated');
+					}, false);
+				});
+		})();
+	</script>
+	<script>
+
+		toastr.options = {
+			positionClass: 'toast-top-right',
+			// other options...
+		};
+		// Show success toast
+		function showSuccessToast(message) {
+			toastr.success(message, "Succès");
+		}
+
+		// Show error toast
+		function showErrorToast(message) {
+			toastr.error(message, "Erreur");
+		}
+
+		// Show info toast
+		function showInfoToast(message) {
+			toastr.info(message, "Info");
+		}
+
+		// Show warning toast
+		function showWarningToast(message) {
+			toastr.warning(message, "alerte");
+		}
+
+	</script>
+
+	<script type="text/javascript">
+		$(document).ready(function () {
+			toastr.options.timeOut = 2000; // 2s
+
+			//toastr.info('Page Loaded!',"test");
+			if ('@ViewBag.success' != '') {
+				showSuccessToast('@ViewBag.success');
+			}
+
+			if ('@ViewBag.error' != '') {
+				showErrorToast('@ViewBag.error');
+			}
+			if ('@ViewBag.info' != '') {
+				showInfoToast('@ViewBag.info');
+			}
+			if ('@ViewBag.warning' != '') {
+				showWarningToast('@ViewBag.warning');
+			}
+
+		});
+	</script>
+	
+}

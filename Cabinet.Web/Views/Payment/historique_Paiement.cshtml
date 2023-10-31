@@ -1,0 +1,159 @@
+﻿@model List<Cabinet.Core.modelview.Paitentpaymentview>
+
+@section Styles
+	{
+	<link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" />
+	<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap/3/css/bootstrap.css" />
+	<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.css" />
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/css/toastr.css" rel="stylesheet" />
+ }
+
+<div class="row">
+    <div class="col-md-1"></div>
+    <div class="col-md-10">
+        <div class="portlet-body">
+            <table id="tablep" class="table table-striped table-hover table-bordered" >
+				<thead>
+					<tr>
+						<th>
+							Full Name Patient
+						</th>
+						<th>
+							CIN
+						</th>
+						<th>
+							Status Paiment
+						</th>
+						<th>
+							Contact
+						</th>
+						<th>
+							prix offer
+						</th>
+						<th> prix Client </th>
+						<th>far9</th>
+						<th>
+							offer
+						</th>
+						<th>
+							date payment
+						</th>
+						
+						<th>
+							Action
+						</th>
+					</tr>
+				</thead>
+				<tbody>
+					@foreach(var a in Model)
+					{
+						var difference = a.payments.Amount - a.typePacks.prix;
+						<tr>
+							<td> @a.LastName @a.FirstName</td>
+							<td>@a.CIN</td>
+							<td>
+								@if (a.payments != null)
+								{
+									@if (@a.typePacks.prix == a.payments.Amount)
+									{
+										<p>Payé</p>
+									}
+									else if (a.payments.Amount - a.typePacks.prix < 0)
+									{
+										<p> Non réglé </p>
+									}
+									else if (a.payments.Amount - a.typePacks.prix > 0)
+									{
+										<p> Rendre l'argent au client </p>
+									}
+								}
+								else
+								{
+									<p>Non payé</p>
+								}
+							</td>
+							<td>@a.ContactNumber @a.ContactNumber2</td>
+							<td>@a.typePacks.prix</td>
+							<td>@a.payments.Amount</td>
+							<td>@difference</td>
+							<td>@a.typePacks.label</td>
+							<td>@a.payments.PaymentDate.ToLongDateString()</td>
+
+							<td><a class="btn btn-success dropdown-item" asp-controller="Payment" asp-action="Reglepay" asp-route-id="@a.packid">regle payment</a></td>
+						</tr>
+					}
+				</tbody>
+            </table>
+        </div>
+    </div>
+    <div class="col-md-1">
+
+     </div>
+</div>
+@section Scripts 
+	{
+		<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+		<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"></script>
+		<script>
+			$('#tablep').DataTable();
+			$(function () {
+				$('.daterange').daterangepicker();
+			});
+		</script>
+		<script type="text/javascript" src="//cdn.jsdelivr.net/jquery/1/jquery.min.js"></script>
+		<script type="text/javascript" src="//cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+		<script type="text/javascript" src="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.js"></script>
+		<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/js/toastr.js"></script>
+	<script>
+
+		toastr.options = {
+			positionClass: 'toast-top-right',
+			// other options...
+		};
+		// Show success toast
+		function showSuccessToast(message) {
+			toastr.success(message, "Succès");
+		}
+
+		// Show error toast
+		function showErrorToast(message) {
+			toastr.error(message, "Erreur");
+		}
+
+		// Show info toast
+		function showInfoToast(message) {
+			toastr.info(message, "Info");
+		}
+
+		// Show warning toast
+		function showWarningToast(message) {
+			toastr.warning(message, "alerte");
+		}
+
+	</script>
+
+	<script type="text/javascript">
+		$(document).ready(function () {
+			toastr.options.timeOut = 2000; // 2s
+
+			//toastr.info('Page Loaded!',"test");
+			if ('@ViewBag.success' != '') {
+				showSuccessToast('@ViewBag.success');
+			}
+
+			if ('@ViewBag.error' != '') {
+				showErrorToast('@ViewBag.error');
+			}
+			if ('@ViewBag.info' != '') {
+				showInfoToast('@ViewBag.info');
+			}
+			if ('@ViewBag.warning' != '') {
+				showWarningToast('@ViewBag.warning');
+			}
+
+		});
+	</script>
+
+	}

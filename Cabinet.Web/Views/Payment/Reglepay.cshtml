@@ -1,0 +1,77 @@
+﻿@model Cabinet.Core.Models.Payment
+@section Styles
+	{
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/css/toastr.css" rel="stylesheet" />
+    }
+<h1> Payment Regle Pack  </h1>
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-sm-6">
+            <h1 class="h3 mb-4 text-center">Payment Regle Pack</h1>
+            <form class="needs-validation" asp-controller="Payment" asp-action="Reglepay" method="post">
+                <div class="form-group">
+                    <label for="Amount" class="form-label">Amount:</label>
+                    <input type="number" class="form-control" id="Amount" asp-for="Amount" required>
+                    <div class="invalid-feedback">Please enter the amount.</div>
+                </div>
+                
+                <button type="submit" class="btn btn-primary">Create</button>
+            </form>
+        </div>
+    </div>
+</div>
+@section Scripts 
+	{
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/js/toastr.js"></script>
+    <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+	<script>
+
+		toastr.options = {
+			positionClass: 'toast-top-right',
+			// other options...
+		};
+		// Show success toast
+		function showSuccessToast(message) {
+			toastr.success(message, "Succès");
+		}
+
+		// Show error toast
+		function showErrorToast(message) {
+			toastr.error(message, "Erreur");
+		}
+
+		// Show info toast
+		function showInfoToast(message) {
+			toastr.info(message, "Info");
+		}
+
+		// Show warning toast
+		function showWarningToast(message) {
+			toastr.warning(message, "alerte");
+		}
+
+	</script>
+
+	<script type="text/javascript">
+		$(document).ready(function () {
+			toastr.options.timeOut = 2000; // 2s
+
+			//toastr.info('Page Loaded!',"test");
+			if ('@ViewBag.success' != '') {
+				showSuccessToast('@ViewBag.success');
+			}
+
+			if ('@ViewBag.error' != '') {
+				showErrorToast('@ViewBag.error');
+			}
+			if ('@ViewBag.info' != '') {
+				showInfoToast('@ViewBag.info');
+			}
+			if ('@ViewBag.warning' != '') {
+				showWarningToast('@ViewBag.warning');
+			}
+
+		});
+	</script>
+    }

@@ -1,0 +1,8 @@
+C:\Users\Said\Desktop\cadinet\Cabinet Medical\Cabinet.Web\obj\Release\net6.0\Cabinet.Web.csproj.AssemblyReference.cache
+C:\Users\Said\Desktop\cadinet\Cabinet Medical\Cabinet.Web\obj\Release\net6.0\Cabinet.Web.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Said\Desktop\cadinet\Cabinet Medical\Cabinet.Web\obj\Release\net6.0\Cabinet.Web.AssemblyInfoInputs.cache
+C:\Users\Said\Desktop\cadinet\Cabinet Medical\Cabinet.Web\obj\Release\net6.0\Cabinet.Web.AssemblyInfo.cs
+C:\Users\Said\Desktop\cadinet\Cabinet Medical\Cabinet.Web\obj\Release\net6.0\Cabinet.Web.csproj.CoreCompileInputs.cache
+C:\Users\Said\Desktop\cadinet\Cabinet Medical\Cabinet.Web\obj\Release\net6.0\Cabinet.Web.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\Said\Desktop\cadinet\Cabinet Medical\Cabinet.Web\obj\Release\net6.0\Cabinet.Web.RazorAssemblyInfo.cache
+C:\Users\Said\Desktop\cadinet\Cabinet Medical\Cabinet.Web\obj\Release\net6.0\Cabinet.Web.RazorAssemblyInfo.cs

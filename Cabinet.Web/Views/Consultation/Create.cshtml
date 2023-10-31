@@ -1,0 +1,53 @@
+﻿
+    @model Cabinet.Core.Models.Consultation
+
+
+
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-sm-6">
+            <h1 class="h3 mb-4 text-center">@ViewBag.action Consultation</h1>
+            <form asp-action="Create" method="post">
+                <div class="form-group">
+                    <label asp-for="Title">Title:</label>
+                    <input asp-for="Title" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label asp-for="ConsultationNotes">Consultation Notes:</label>
+                    <textarea id="consultationNotes" asp-for="ConsultationNotes" name="ConsultationNotes" required></textarea>
+
+                </div>
+                <button type="submit" class="btn btn-primary">Create</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.ckeditor.com/4.16.1/standard/ckeditor.js"></script>
+    <script>
+        $(document).ready(function () {
+            CKEDITOR.replace('consultationNotes', {
+                contentsCss: 'https://cdn.ckeditor.com/4.16.1/standard/ckeditor.css',
+                format_tags: 'p;h1;h2;h3;h4;h5;h6;pre;address;div'
+            }).on('instanceReady', function (ev) {
+                ev.editor.document.getBody().setStyle('text-align', 'center');
+            });
+
+            var textarea = document.getElementById('consultationNotes');
+
+            textarea.addEventListener('invalid', function () {
+                if (!editor.getData().trim()) {
+                    textarea.setCustomValidity('Please enter the consultation notes.');
+                } else {
+                    textarea.setCustomValidity('');
+                }
+            });
+            
+        });
+       
+      
+        
+    </script>
+}

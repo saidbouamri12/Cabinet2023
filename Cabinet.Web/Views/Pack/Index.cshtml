@@ -1,0 +1,182 @@
+﻿@model List<Cabinet.Core.modelview.packpatientview>
+@section Styles
+	{
+	<link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" />
+	<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap/3/css/bootstrap.css" />
+	<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.css" />
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/css/toastr.css" rel="stylesheet" />
+
+ }
+<h1>INDEX PACK</h1>
+
+<div class="row">
+	<div class="col-md-1">
+		
+	</div>
+	<div class="col-md-10">
+		<a asp-controller="Pack" asp-action="Create" class="btn btn-success" style="margin-bottom:30px">Ajouter Dossier</a>
+		<br />
+		<div class="portlet-body">
+			<table id="tablep" class="table table-striped table-hover table-bordered" id="sample_editable_1">
+				<thead>
+					<tr>
+						<th>
+							Full Name Patient
+						</th>
+						<th>
+							CIN
+						</th>
+						<th>
+							Status Paiment
+						</th>
+						<th>
+							Contact
+						</th>
+						<th>
+							prix offer
+						</th>
+						<th>
+							offer
+						</th>
+						
+						<th>
+							Doctor
+						</th>
+						<th>
+							rendez vour number
+						</th>
+						<th>
+							Action
+						</th>
+					</tr>
+				</thead>
+				<tbody>
+					@foreach (var a in Model)
+					{
+						<tr>
+							<td>@a.patient.LastName @a.patient.FirstName</td>
+							<td>@a.patient.CIN</td>
+							<td>
+								@if (a.payment != null)
+								{
+									@if (@a.TypePack.prix == a.payment.Amount)
+									{
+										<p>Payé</p>
+									}
+									else if (a.payment.Amount - a.TypePack.prix < 0)
+									{
+										<p> Non réglé </p>
+									}
+									else if (a.payment.Amount - a.TypePack.prix > 0)
+									{
+										<p> Rendre l'argent au client </p>
+									}
+								}
+								else
+								{
+									<p>Non payé</p>
+								}
+							</td>
+							<td> @a.patient.ContactNumber @a.patient.ContactNumber2</td>
+							<td>@a.TypePack.prix</td>
+							<td>@a.TypePack.label</td>
+							<td>
+								@a.user.fullname
+							</td>
+							<td>
+								@a.appointment.Count()
+							</td>
+							<td>
+								<div class="dropdown">
+									<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+										Action
+									</button>
+									<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+										<a class="dropdown-item" asp-controller="Pack" asp-action="Edit" asp-route-id="@a.Packid">Edit</a>
+										<a class="dropdown-item" onclick="confirmDelete('@a.Packid')">Delete</a>
+										<a class="dropdown-item" asp-controller="Appointment" asp-action="AddAppoi" asp-route-id="@a.Packid"> Add Appointment</a>
+									</div>
+								</div>
+								<form id="deleteForm-@a.Packid" asp-action="Delete" asp-route-id="@a.Packid" method="post" style="display: none;">
+									@Html.AntiForgeryToken()
+								</form>
+							</td>
+						</tr>
+
+					}
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<div class="col-md-1">
+	</div>
+</div>
+
+@section Scripts
+	{
+	<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+	<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"></script>
+	<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/js/toastr.js"></script>
+	<script>
+		$('#tablep').DataTable();
+		function confirmDelete(appointmentId) {
+			if (confirm('Are you sure you want to delete this Pack?')) {
+				var formId = 'deleteForm-' + appointmentId;
+				var deleteForm = document.getElementById(formId);
+				deleteForm.submit();
+			}
+		}
+	</script>
+	<script>
+
+		toastr.options = {
+			positionClass: 'toast-top-right',
+			// other options...
+		};
+		// Show success toast
+		function showSuccessToast(message) {
+			toastr.success(message, "Succès");
+		}
+
+		// Show error toast
+		function showErrorToast(message) {
+			toastr.error(message, "Erreur");
+		}
+
+		// Show info toast
+		function showInfoToast(message) {
+			toastr.info(message, "Info");
+		}
+
+		// Show warning toast
+		function showWarningToast(message) {
+			toastr.warning(message, "alerte");
+		}
+
+	</script>
+
+	<script type="text/javascript">
+		$(document).ready(function () {
+			toastr.options.timeOut = 2000; // 2s
+
+			//toastr.info('Page Loaded!',"test");
+			if ('@ViewBag.success' != '') {
+				showSuccessToast('@ViewBag.success');
+			}
+
+			if ('@ViewBag.error' != '') {
+				showErrorToast('@ViewBag.error');
+			}
+			if ('@ViewBag.info' != '') {
+				showInfoToast('@ViewBag.info');
+			}
+			if ('@ViewBag.warning' != '') {
+				showWarningToast('@ViewBag.warning');
+			}
+
+		});
+	</script>
+	
+	}

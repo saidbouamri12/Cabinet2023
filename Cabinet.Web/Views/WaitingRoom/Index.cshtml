@@ -1,0 +1,263 @@
+﻿@model List<Cabinet.Core.modelview.indexwaitroom>
+@using Microsoft.AspNetCore.Identity
+
+@inject UserManager<Cabinet.Core.Models.ApplicationUser> _userManager
+<h1>WAITINGROOM</h1>
+	@section Styles
+	{
+          <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+          
+          <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+
+	   	
+          <link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css">
+          <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/css/toastr.css" rel="stylesheet" />
+    <style>
+        .label.label-sm.label-default {
+            background-color: gray;
+            color: white;
+        }
+
+        .label.label-sm.label-danger {
+            background-color: red;
+            color: white;
+        }
+
+        .label.label-sm.label-success {
+            background-color: green;
+            color: white;
+            border-radius : 2rem;
+        }
+        .centered-span {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    </style>
+	}
+<div class="container-fluid">
+    <div class="row" style="margin-top: 40px; margin-bottom: 20px">
+        <div class="col-lg-1 col-md-0"></div>
+        <div class="col-lg-10 col-md-12">
+            
+        </div>
+        <div class="col-lg-1 col-md-0"></div>
+    </div>
+    <div class="row">
+        <div class="col-lg-1 col-md-0"></div>
+        <div class="col-lg-10 col-md-12">
+            <div class="portlet-body">
+                <div class="table-responsive">
+                    <table id="tablep" class="table table-striped table-hover table-bordered">
+                        <thead>
+                            <tr>
+                                
+                                <th>First Name</th>
+                                <th>Last Name</th>
+                                <th>Check-In Status</th>
+                                <th>Appointment Date</th>
+                                <th>name pack</th>
+                                <th>Appointment Time</th>
+                                <th>Appointment Status</th>
+                                <th> Doctor </th>
+                                <th>Status Patient</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                var user = await _userManager.FindByIdAsync(@item.doctorid);
+                                <tr>
+                                    <td>@item.FirstName</td>
+                                    <td>@item.LastName</td>
+                                    <td >@item.CheckInStatus</td>
+                                    <td>@item.AppointmentDate.ToShortDateString()</td>
+                                    <td>@item.namepack</td>
+                                    <td>@item.AppointmentTime</td>
+                                    <td>@item.AppointmentStatus</td>
+                                    <td>@user</td>
+                                    <td class="centered-span">
+                                        @Html.Raw(GetStatusPatientLabel(item.Statuspaitent))
+                                    </td>
+                                    <td>
+                                        <div class="dropdown">
+                                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                Dropdown button
+                                            </button>
+                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                              @*  @Html.ActionLink("Detail","Detail","WaitingRoom", new {id = item.WaitingRoomID}, new{@class="dropdown-item"})*@
+                                                @Html.ActionLink("Edit","Edit","WaitingRoom", new {id = item.WaitingRoomID}, new{@class="dropdown-item"})
+
+                                                <a class="dropdown-item" onclck="confirmDelete('item.WaitingRoomID')">
+                                                    Delete
+                                                </a>
+                                                <a class="dropdown-item" asp-action="Create" asp-controller="Consultation" asp-route-id="@item.AppointmentID">
+                                                    Consultation
+                                                </a>
+                                                @*<a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#myModal">  </a>*@
+                                            </div>
+                                        </div>
+                                        <form id="deleteForm-@item.WaitingRoomID" asp-action="Delete" asp-route-id="@item.WaitingRoomID" method="post" style="display :none;">
+                                            @Html.AntiForgeryToken()
+                                        </form>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-1 col-md-0"></div>
+    </div>
+ 
+</div>
+
+
+
+@functions {
+    string GetStatusPatientLabel(string status)
+    {
+        switch (status)
+        {
+            case "i dont have appointment":
+                return "<span class=\"label label-sm label-default \">No Appointment</span>";
+            case "danger":
+                return "<span class=\"label label-sm label-danger\">Danger</span>";
+            case "i have appointment":
+                return "<span class=\"label label-sm label-success \">Have Appointment</span>";
+            default:
+                return status;
+        }
+    }
+}
+@section Scripts
+	{
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/luxon/2.2.0/luxon.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/js/toastr.js"></script>
+    <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+	<script>
+		$('#tablep').DataTable();
+	</script>
+    <script>
+        //$(document).ready(function () {
+        //    // Add custom JavaScript code here
+
+        //    // Example: Change the background color of selected option in dropdown
+        //    $('.form-control').change(function () {
+        //        var selectedOption = $(this).find('option:selected');
+        //        selectedOption.css('background-color', '#f8f9fa');
+        //    });
+
+        //    // Example: Display selected option value in console
+        //    $('.form-control').change(function () {
+        //        var selectedValue = $(this).val();
+        //        console.log('Selected Value: ' + selectedValue);
+        //    });
+
+        //    // Example: Disable certain options based on conditions
+        //    $('#AppointmentStatus').change(function () {
+        //        var selectedValue = $(this).val();
+
+        //        // Disable options based on selected value
+        //        if (selectedValue === 'Cancelled') {
+        //            $('#AppointmentType option[value="Urgent"]').prop('disabled', true);
+        //            $('#AppointmentType option[value="Routine"]').prop('disabled', false);
+        //        } else if (selectedValue === 'Completed') {
+        //            $('#AppointmentType option[value="Urgent"]').prop('disabled', false);
+        //            $('#AppointmentType option[value="Routine"]').prop('disabled', true);
+        //        } else {
+        //            $('#AppointmentType option').prop('disabled', false);
+        //        }
+        //    });
+        //});
+    </script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const inputElement = document.getElementById("AppointmentTime");
+            const timePicker = flatpickr(inputElement, {
+                enableTime: true,
+                noCalendar: true,
+                dateFormat: "H:i",
+                minTime: "08:00",
+                maxTime: "18:00",
+                time_24hr: true,
+                allowInput: true
+            });
+        });
+    </script>   
+    
+     <script>
+            $(document).ready(function () {
+                $('.select2').select2();
+            });
+     </script>
+    <script>
+        function confirmDelete(WaitingRoomID) 
+        {
+            if (confirm('Are you sure you want to delete this WaitRoom?'))
+            {
+                var formId = 'deleteForm-' + WaitingRoomID;
+                var deleteForm = document.getElementById(formId);
+                deleteForm.submit();
+            }
+        }
+    </script>
+    <script>
+
+        toastr.options = {
+            positionClass: 'toast-top-right',
+            // other options...
+        };
+        // Show success toast
+        function showSuccessToast(message) {
+            toastr.success(message, "Succès");
+        }
+
+        // Show error toast
+        function showErrorToast(message) {
+            toastr.error(message, "Erreur");
+        }
+
+        // Show info toast
+        function showInfoToast(message) {
+            toastr.info(message, "Info");
+        }
+
+        // Show warning toast
+        function showWarningToast(message) {
+            toastr.warning(message, "alerte");
+        }
+
+    </script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            toastr.options.timeOut = 2000; // 2s
+
+            //toastr.info('Page Loaded!',"test");
+            if ('@ViewBag.success' != '') {
+                showSuccessToast('@ViewBag.success');
+            }
+
+            if ('@ViewBag.error' != '') {
+                showErrorToast('@ViewBag.error');
+            }
+            if ('@ViewBag.info' != '') {
+                showInfoToast('@ViewBag.info');
+            }
+            if ('@ViewBag.warning' != '') {
+                showWarningToast('@ViewBag.warning');
+            }
+
+        });
+    </script>
+	 }

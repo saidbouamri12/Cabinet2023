@@ -1,0 +1,9 @@
+﻿@model Cabinet.Core.Models.Appointment;
+@{
+    Layout = null;
+}
+<h1>TEST</h1>
+<form method="post" asp-action="test" asp-controller="Appointment" asp-route-id="@Model.AppointmentID">
+
+    <button type="submit">Test</button>
+</form>

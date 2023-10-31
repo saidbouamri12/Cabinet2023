@@ -1,0 +1,193 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model Cabinet.Core.Models.Appointment;
+
+
+@section Styles
+{
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/css/toastr.css" rel="stylesheet" />
+}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-sm-6">
+            <h1 class="h3 mb-4 text-center">Create Appointment</h1>
+            <form class="needs-validation" asp-controller="Appointment" asp-action="Create" method="post">
+                <div class="form-group">
+                    <label for="PatientID" class="form-label">Patient ID:</label>
+                    <select class="form-control" id="PatientID" name="PatientID" required>
+                        <option value="">Select Patient ID</option>
+                        @foreach (var paitent in ViewBag.paitent)
+                         {
+                            <option value="@paitent.PatientID">@paitent.FirstName @paitent.LastName @paitent.CIN </option>
+                         }
+                        <!-- Add your dynamic options here -->
+                    </select>
+                    <div class="invalid-feedback">Please select the patient ID.</div>
+                </div>
+                <div class="form-group">
+                    <label for="AppointmentDate" class="form-label">Appointment Date:</label>
+                    <input type="date" class="form-control" id="AppointmentDate" name="AppointmentDate" required>
+                    <div class="invalid-feedback">Please enter the appointment date.</div>
+                </div>
+                <div class="form-group">
+                    <label for="AppointmentTime" class="form-label">Appointment Time:</label>
+                    <input type="time" class="form-control" id="AppointmentTime" name="AppointmentTime" min="08:00" max="18:00" step="3600"  required>
+                    <div class="invalid-feedback">Please enter the appointment time.</div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Appointment Status:</label>
+                    <div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="AppointmentStatus" id="statusScheduled" value="scheduled" required>
+                            <label class="form-check-label" for="statusScheduled">Scheduled</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="AppointmentStatus" id="statusConfirmed" value="confirmed" required>
+                            <label class="form-check-label" for="statusConfirmed">Confirmed</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="AppointmentStatus" id="statusCanceled" value="canceled" required>
+                            <label class="form-check-label" for="statusCanceled">Canceled</label>
+                        </div>
+                    </div>
+                    <div class="invalid-feedback">Please select the appointment status.</div>
+                </div>
+                @*<div class="form-group">
+                    <label class="form-label">Appointment Type:</label>
+                    <div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" id="AppointmentType_check-up" name="AppointmentType" value="check-up" required @(Model.AppointmentType == "check-up" ? "checked" : "")>
+                            <label class="form-check-label" for="AppointmentType_check-up">Check-up</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" id="AppointmentType_follow-up" name="AppointmentType" value="follow-up" required @(Model.AppointmentType == "follow-up" ? "checked" : "")>
+                            <label class="form-check-label" for="AppointmentType_follow-up">Follow-up</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" id="AppointmentType_consultation" name="AppointmentType" value="consultation" required @(Model.AppointmentType == "consultation" ? "checked" : "")>
+                            <label class="form-check-label" for="AppointmentType_consultation">Consultation</label>
+                        </div>
+                    </div>
+                    <div class="invalid-feedback">Please select the appointment type.</div>
+                </div>*@
+                <div class="form-group">
+                    <label for="Notes" class="form-label">Notes:</label>
+                    <textarea class="form-control" id="Notes" name="Notes"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Create</button>
+            </form>
+        </div>
+    </div>
+</div>
+@section Scripts
+{
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/luxon/2.2.0/luxon.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/js/toastr.js"></script>
+    <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+    <script>
+        
+        // Add custom JavaScript code here
+        (function () {
+            'use strict';
+
+            // Fetch the form element
+            var form = document.querySelector('.needs-validation');
+
+            // Submit event handler for the form
+            function handleSubmit(event) {
+                // Prevent form submission if it's invalid
+                if (!form.checkValidity()) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+
+                form.classList.add('was-validated');
+            }
+
+            // Add submit event listener to the form
+            form.addEventListener('submit', handleSubmit);
+        })();
+        var currentDate = new Date().toISOString().split('T')[0];
+
+        // Set the minimum value for the appointment date input field
+        document.getElementById('AppointmentDate').setAttribute('min', currentDate);
+    </script>
+    <script>
+        $(document).ready(function () {
+            $('#PatientID').select2({
+                placeholder: "Select Patient ID",
+                // Add any additional configuration options here
+            });
+        });
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const inputElement = document.getElementById("AppointmentTime");
+            const timePicker = flatpickr(inputElement, {
+                enableTime: true,
+                noCalendar: true,
+                dateFormat: "H:i",
+                minTime: "08:00",
+                maxTime: "18:00",
+                time_24hr: true,
+                allowInput: true
+            });
+        });
+    </script>
+    <script>
+
+        toastr.options = {
+            positionClass: 'toast-top-right',
+            // other options...
+        };
+        // Show success toast
+        function showSuccessToast(message) {
+            toastr.success(message, "Succès");
+        }
+
+        // Show error toast
+        function showErrorToast(message) {
+            toastr.error(message, "Erreur");
+        }
+
+        // Show info toast
+        function showInfoToast(message) {
+            toastr.info(message, "Info");
+        }
+
+        // Show warning toast
+        function showWarningToast(message) {
+            toastr.warning(message, "Alerte");
+        }
+
+    </script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            toastr.options.timeOut = 2000; // 2s
+
+            //toastr.info('Page Loaded!',"test");
+            if ('@ViewBag.success' != '') {
+                showSuccessToast('@ViewBag.success');
+            }
+
+            if ('@ViewBag.error' != '') {
+                showErrorToast('@ViewBag.error');
+            }
+            if ('@ViewBag.info' != '') {
+                showInfoToast('@ViewBag.info');
+            }
+            if ('@ViewBag.warning' != '') {
+                showWarningToast('@ViewBag.warning');
+            }
+
+        });
+    </script>
+}

@@ -1,0 +1,5 @@
+C:\Users\Said\Desktop\cadinet\Cabinet Medical\Cabinet.EF\obj\Release\net6.0\Cabinet.EF.csproj.AssemblyReference.cache
+C:\Users\Said\Desktop\cadinet\Cabinet Medical\Cabinet.EF\obj\Release\net6.0\Cabinet.EF.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Said\Desktop\cadinet\Cabinet Medical\Cabinet.EF\obj\Release\net6.0\Cabinet.EF.AssemblyInfoInputs.cache
+C:\Users\Said\Desktop\cadinet\Cabinet Medical\Cabinet.EF\obj\Release\net6.0\Cabinet.EF.AssemblyInfo.cs
+C:\Users\Said\Desktop\cadinet\Cabinet Medical\Cabinet.EF\obj\Release\net6.0\Cabinet.EF.csproj.CoreCompileInputs.cache

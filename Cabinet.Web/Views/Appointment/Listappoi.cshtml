@@ -1,0 +1,159 @@
+﻿@model List<Cabinet.Core.modelview.Appointmentview>
+
+@section Styles
+	{
+	<link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" />
+	<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap/3/css/bootstrap.css" />
+	<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.css" />
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/css/toastr.css" rel="stylesheet" />
+
+}
+<div class="container-fluid">
+	<div class="row" style="margin-top:40px; margin-bottom:20px">
+		<div class="col-md-1">
+		</div>
+		<div class="col-md-10">
+			<h1>Appointment List Paitent </h1>
+		</div>
+		<div class="col-md-1">
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-1">
+		</div>
+		<div class="col-md-10">
+			<div class="portlet-body">
+				<table id="tablep" class="table table-striped table-hover table-bordered">
+					<thead>
+						<tr>
+							<th> Nom complet </th>
+							<th>
+								CIN
+							</th>
+							<th> État du paiement </th>
+
+							<th> Heure du rendez-vous </th>
+							<th>Statut du rendez-vous</th>
+							<th>  date de rendez-vous </th>
+							<th>Tapez l'opération</th>
+							<th>Action</th>
+
+						</tr>
+					</thead>
+					<tbody>
+						@foreach (var a in Model)
+						{
+							<tr>
+								<td> @a.Patients.LastName @a.Patients.FirstName </td>
+								<td>@a.Patients.CIN</td>
+								<td>
+									@if (a.payment != null)
+									{
+										@if (@a.TypePack.prix == a.payment.Amount)
+										{
+											<p>Payé</p>
+										}
+										else if (a.payment.Amount - a.TypePack.prix < 0)
+										{
+											<p> Non réglé </p>
+										}
+										else if (a.payment.Amount - a.TypePack.prix > 0)
+										{
+											<p> Rendre l'argent au client </p>
+										}
+									}
+									else
+									{
+										<p>Non payé</p>
+									}
+								</td>
+								<td> @a.AppointmentTime</td>
+								<td>@a.AppointmentStatus</td>
+								<td> @a.AppointmentDate</td>
+								<td>@a.TypePack.label</td>
+								<td>
+									<div class="dropdown">
+										<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+											Action
+										</button>
+										<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+											@if (a.consultation != null)
+											{
+												<a class="dropdown-item">Consultation</a>
+											}
+											@if(a.AppointmentDate == DateTime.Now)
+											{
+												<a class="dropdown-item" asp-action="Createwithapoiment" asp-controller="WaitingRoom" asp-route-id="@a.AppointmentID"> Add in Waitroom  </a>
+											}
+											
+
+										</div>
+									</div>
+								</td>
+							</tr>
+						}
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+@section Scripts{
+	<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+	<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"></script>
+	<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/js/toastr.js"></script>
+	<script>
+	$('#tablep').DataTable();
+	</script>
+	<script>
+
+		toastr.options = {
+			positionClass: 'toast-top-right',
+			// other options...
+		};
+		// Show success toast
+		function showSuccessToast(message) {
+			toastr.success(message, "Succès");
+		}
+
+		// Show error toast
+		function showErrorToast(message) {
+			toastr.error(message, "Erreur");
+		}
+
+		// Show info toast
+		function showInfoToast(message) {
+			toastr.info(message, "Info");
+		}
+
+		// Show warning toast
+		function showWarningToast(message) {
+			toastr.warning(message, "alerte");
+		}
+
+	</script>
+
+	<script type="text/javascript">
+		$(document).ready(function () {
+			toastr.options.timeOut = 2000; // 2s
+
+			//toastr.info('Page Loaded!',"test");
+			if ('@ViewBag.success' != '') {
+				showSuccessToast('@ViewBag.success');
+			}
+
+			if ('@ViewBag.error' != '') {
+				showErrorToast('@ViewBag.error');
+			}
+			if ('@ViewBag.info' != '') {
+				showInfoToast('@ViewBag.info');
+			}
+			if ('@ViewBag.warning' != '') {
+				showWarningToast('@ViewBag.warning');
+			}
+
+		});
+	</script>
+}

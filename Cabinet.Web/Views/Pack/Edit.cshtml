@@ -1,0 +1,120 @@
+﻿@model Cabinet.Core.Models.Pack
+
+@section Styles
+    {
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/css/toastr.css" rel="stylesheet" />
+
+}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-sm-6">
+            <h1 class="h3 mb-4 text-center">Create Pack</h1>
+            <form class="needs-validation" asp-controller="Pack" asp-action="Create" method="post">
+                @Html.AntiForgeryToken()
+                <div class="form-group">
+                    <label for="idtypepack" class="form-label">Type Pack:</label>
+                    <select class="form-control select2" id="idtypepack" name="idtypepack">
+                        <option value="">Select Type Pack</option>
+                        @foreach (var typePack in ViewBag.typepack)
+                        {  @if (Model.idtypepack == typePack.id)
+                            {
+                                <option value="@typePack.id" selected>@typePack.label</option>
+                            }
+                            else
+                            {
+                                <option value="@typePack.id">@typePack.label</option>
+                            }
+                        }
+                    </select>
+                    <div class="invalid-feedback">Please select the type pack.</div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="doctorid" class="form-label">Doctor:</label>
+                    <select class="form-control select2" id="doctorid" name="doctorid">
+                        <option value="">Select Doctor</option>
+                        @foreach (var doctor in ViewBag.doctorUser)
+                        {
+                            @if (Model.doctorid == doctor.Id)
+                            {
+                                <option value="@doctor.Id" selected>@doctor.fullname</option>
+                            }
+                            else
+                            {
+                                <option value="@doctor.Id" >@doctor.fullname</option>
+                            }
+                        }
+                    </select>
+                    <div class="invalid-feedback">Please select the doctor.</div>
+                </div>
+                <button type="submit" class="btn btn-primary">Create</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts
+    {
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/js/toastr.js"></script>
+    <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('.select2').select2();
+        });
+
+    </script>
+    <script>
+
+        toastr.options = {
+            positionClass: 'toast-top-right',
+            // other options...
+        };
+        // Show success toast
+        function showSuccessToast(message) {
+            toastr.success(message, "Succès");
+        }
+
+        // Show error toast
+        function showErrorToast(message) {
+            toastr.error(message, "Erreur");
+        }
+
+        // Show info toast
+        function showInfoToast(message) {
+            toastr.info(message, "Info");
+        }
+
+        // Show warning toast
+        function showWarningToast(message) {
+            toastr.warning(message, "alerte");
+        }
+
+    </script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            toastr.options.timeOut = 2000; // 2s
+
+            //toastr.info('Page Loaded!',"test");
+            if ('@ViewBag.success' != '') {
+                showSuccessToast('@ViewBag.success');
+            }
+
+            if ('@ViewBag.error' != '') {
+                showErrorToast('@ViewBag.error');
+            }
+            if ('@ViewBag.info' != '') {
+                showInfoToast('@ViewBag.info');
+            }
+            if ('@ViewBag.warning' != '') {
+                showWarningToast('@ViewBag.warning');
+            }
+
+        });
+    </script>
+     }

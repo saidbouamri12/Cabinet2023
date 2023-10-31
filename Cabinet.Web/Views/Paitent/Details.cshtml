@@ -1,0 +1,66 @@
+﻿@model Cabinet.Core.Models.Patient;
+
+<h1>Patient Details</h1>
+
+<div class="table-responsive">
+    <table class="table table-bordered">
+        <tr>
+            <th>Patient ID:</th>
+            <td>@Model.PatientID</td>
+        </tr>
+        <tr>
+            <th>First Name:</th>
+            <td>@Model.FirstName</td>
+        </tr>
+        <tr>
+            <th>Last Name:</th>
+            <td>@Model.LastName</td>
+        </tr>
+        <tr>
+            <th>CIN:</th>
+            <td>@Model.CIN</td>
+        </tr>
+        <tr>
+            <th>Date of Birth:</th>
+            <td>@(Model.DateOfBirth != null ? Model.DateOfBirth.Value.ToShortDateString() : string.Empty)</td>
+        </tr>
+        <tr>
+            <th>Gender:</th>
+            <td>@Model.Gender</td>
+        </tr>
+        <tr>
+            <th>Contact Number:</th>
+            <td>@Model.ContactNumber</td>
+        </tr>
+        <tr>
+            <th>Additional Contact Number:</th>
+            <td>@Model.ContactNumber2</td>
+        </tr>
+        <tr>
+            <th>Email:</th>
+            <td>@Model.Email</td>
+        </tr>
+        <tr>
+            <th>Address:</th>
+            <td>@Model.Address</td>
+        </tr>
+        <tr>
+            <th>Medical History:</th>
+            <td>@Model.MedicalHistory</td>
+        </tr>
+        <tr>
+            <th>Allergies:</th>
+            <td>@Model.Allergies</td>
+        </tr>
+        <tr>
+            <th>Chronic Conditions:</th>
+            <td>@Model.ChronicConditions</td>
+        </tr>
+        <tr>
+            <th>Parent/Guardian:</th>
+            <td>@Model.ParentGuardian</td>
+        </tr>
+    </table>
+</div>
+
+<a asp-controller="Patient" asp-action="Index" class="btn btn-primary">Back to List</a>

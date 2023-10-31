@@ -1,0 +1,109 @@
+﻿@model Cabinet.Core.Models.WaitingRoom
+<h1>EDIT WaitRoom</h1>
+@section Styles
+    {
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/css/toastr.css" rel="stylesheet" />
+    }
+    <div class="row">
+<div class="col-md-3"></div>
+<div class="col-md-6">
+<form method="post" action="@Url.Action("Edit", "WaitingRoom")">
+
+    <div class="mb-3">
+        <label for="Notes" class="form-label">Notes:</label>
+        <textarea class="form-control" id="Notes" name="Notes" asp-for="Notes"></textarea>
+    </div>
+    <div class="mb-3">
+        <label for="Statuspaitent" class="form-label">Status Patient:</label>
+        <select class="form-control" id="Statuspaitent" asp-for="Statuspaitent" name="Statuspaitent" required>
+            <option value="">Select Status</option>
+            @if (Model.Statuspaitent == "i dont have appointment")
+            {
+                <option value="dont have appointment" selected>Don't have appointment</option>
+            }
+            else
+            {
+                <option value="dont have appointment">Don't have appointment</option>
+            }
+            @if (Model.Statuspaitent == "danger")
+            {
+                <option value="danger" selected>Danger</option>
+            }
+            else
+            {
+                <option value="danger">Danger</option>
+            }
+            @if (Model.Statuspaitent == "have appointment")
+            {
+                <option value="have appointment" selected>Have appointment</option>
+            }
+            else
+            {
+                <option value="have appointment">Have appointment</option>
+            }
+           
+            
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+</div>
+<div class="col-md-3"></div>
+</div>
+@section Scripts 
+{
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/js/toastr.js"></script>
+    <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+    <script>
+
+        toastr.options = {
+            positionClass: 'toast-top-right',
+            // other options...
+        };
+        // Show success toast
+        function showSuccessToast(message) {
+            toastr.success(message, "Succès");
+        }
+
+        // Show error toast
+        function showErrorToast(message) {
+            toastr.error(message, "Erreur");
+        }
+
+        // Show info toast
+        function showInfoToast(message) {
+            toastr.info(message, "Info");
+        }
+
+        // Show warning toast
+        function showWarningToast(message) {
+            toastr.warning(message, "alerte");
+        }
+
+    </script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            toastr.options.timeOut = 2000; // 2s
+
+            //toastr.info('Page Loaded!',"test");
+            if ('@ViewBag.success' != '') {
+                showSuccessToast('@ViewBag.success');
+            }
+
+            if ('@ViewBag.error' != '') {
+                showErrorToast('@ViewBag.error');
+            }
+            if ('@ViewBag.info' != '') {
+                showInfoToast('@ViewBag.info');
+            }
+            if ('@ViewBag.warning' != '') {
+                showWarningToast('@ViewBag.warning');
+            }
+
+        });
+    </script>
+
+}

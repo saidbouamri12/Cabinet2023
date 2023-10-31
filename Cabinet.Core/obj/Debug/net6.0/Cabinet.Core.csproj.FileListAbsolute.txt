@@ -1,0 +1,14 @@
+C:\Users\Said\Desktop\cadinet\Cabinet Medical\Cabinet.Core\bin\Debug\net6.0\Cabinet.Core.deps.json
+C:\Users\Said\Desktop\cadinet\Cabinet Medical\Cabinet.Core\bin\Debug\net6.0\Cabinet.Core.runtimeconfig.json
+C:\Users\Said\Desktop\cadinet\Cabinet Medical\Cabinet.Core\bin\Debug\net6.0\Cabinet.Core.dll
+C:\Users\Said\Desktop\cadinet\Cabinet Medical\Cabinet.Core\bin\Debug\net6.0\Cabinet.Core.pdb
+C:\Users\Said\Desktop\cadinet\Cabinet Medical\Cabinet.Core\obj\Debug\net6.0\Cabinet.Core.csproj.AssemblyReference.cache
+C:\Users\Said\Desktop\cadinet\Cabinet Medical\Cabinet.Core\obj\Debug\net6.0\Cabinet.Core.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Said\Desktop\cadinet\Cabinet Medical\Cabinet.Core\obj\Debug\net6.0\Cabinet.Core.AssemblyInfoInputs.cache
+C:\Users\Said\Desktop\cadinet\Cabinet Medical\Cabinet.Core\obj\Debug\net6.0\Cabinet.Core.AssemblyInfo.cs
+C:\Users\Said\Desktop\cadinet\Cabinet Medical\Cabinet.Core\obj\Debug\net6.0\Cabinet.Core.csproj.CoreCompileInputs.cache
+C:\Users\Said\Desktop\cadinet\Cabinet Medical\Cabinet.Core\obj\Debug\net6.0\Cabinet.Core.dll
+C:\Users\Said\Desktop\cadinet\Cabinet Medical\Cabinet.Core\obj\Debug\net6.0\refint\Cabinet.Core.dll
+C:\Users\Said\Desktop\cadinet\Cabinet Medical\Cabinet.Core\obj\Debug\net6.0\Cabinet.Core.pdb
+C:\Users\Said\Desktop\cadinet\Cabinet Medical\Cabinet.Core\obj\Debug\net6.0\Cabinet.Core.genruntimeconfig.cache
+C:\Users\Said\Desktop\cadinet\Cabinet Medical\Cabinet.Core\obj\Debug\net6.0\ref\Cabinet.Core.dll
